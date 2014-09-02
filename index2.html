@@ -1,0 +1,52 @@
+<html>
+<head>
+  <style>body { margin:0; padding:0; }</style>
+</head>
+<body>
+  <script src="lib/three.js"></script>
+  <script>
+    var scene = new THREE.Scene();
+
+    var camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight);
+    camera.position.set(1, 2.2, 1.5);
+    camera.lookAt(new THREE.Vector3(0, 1, 0));
+
+    var light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(3, 2, 1);
+    scene.add(light);
+
+    var ground = new THREE.Mesh(
+      new THREE.PlaneGeometry(300, 300, 64, 64),
+      new THREE.MeshPhongMaterial({color:0xffffff})
+    );
+    ground.quaternion.setFromAxisAngle(new THREE.Vector3(1, 0, 0), -Math.PI/2);
+    scene.add(ground);
+
+    var box = new THREE.Mesh(
+      new THREE.BoxGeometry(1, 1, 1),
+      new THREE.MeshPhongMaterial({color:0xff0000})
+    );
+    box.position.set(0, 0.5, -0.5);
+    scene.add(box);
+
+    var cylinder = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.25, 0.25, 2),
+      new THREE.MeshPhongMaterial({color:0xff0000})
+    );
+    cylinder.position.set(0, 1, 0.5);
+    scene.add(cylinder);
+
+    var renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    function render() {
+      requestAnimationFrame(render);
+      box.rotation.y += 0.1;
+      cylinder.rotation.x += 0.07;
+      renderer.render(scene, camera);
+    }
+    render();
+  </script>
+</body>
+</html>
